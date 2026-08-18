@@ -57,6 +57,8 @@ Verify installations:
 - aws --version
 - mysql --version
 
+---
+
 # Installation Steps
 
 Follow these steps to prepare the environment for the Data Ingestion from S3 to RDS with Fallback to AWS Glue using Dockerized Python Application project.
@@ -84,12 +86,16 @@ README.md
 .gitignore
 screenshots
 
+---
+
 ## 2. Update the System
 
 Update the Ubuntu package repository:
 
 sudo apt update
 sudo apt upgrade -y
+
+---
 
 ## 3. Install Python
 
@@ -103,6 +109,8 @@ python3 --version
 pip3 --version
 
 The Python version should be 3.12 or later.
+
+---
 
 ## 4. Create a Python Virtual Environment
 
@@ -120,6 +128,8 @@ You should see:
 
 at the beginning of your terminal prompt.
 
+---
+
 ## 5. Install Python Dependencies
 
 The project uses Pandas, Boto3, SQLAlchemy, and PyMySQL.
@@ -133,6 +143,8 @@ Verify:
 pip list
 
 The required packages should be displayed.
+
+---
 
 ## 6. Install Docker
 
@@ -159,6 +171,8 @@ sudo usermod -aG docker $USER
 
 Log out and log back in for the change to take effect.
 
+---
+
 ## 7. Install Git
 
 If Git is not installed:
@@ -169,6 +183,8 @@ Verify:
 
 git --version
 
+---
+
 ## 8. Install MySQL Client
 
 The MySQL client is useful for testing the RDS connection and verifying inserted records.
@@ -178,6 +194,8 @@ sudo apt install mysql-client -y
 Verify:
 
 mysql --version
+
+---
 
 ## 9. Install and Configure AWS CLI
 
@@ -208,6 +226,7 @@ If the application runs on an EC2 instance, an IAM role attached to the EC2 inst
 
 The project is organized into application code, Docker configuration, dependencies, documentation, and screenshots.
 
+```text
 Data-Ingestion-S3-RDS-Glue/
 │
 ├── app.py
@@ -228,9 +247,429 @@ Data-Ingestion-S3-RDS-Glue/
     ├── 04-container-logs-rds-success.png
     ├── 05-rds-records.png
     └── 06-glue-table-fallback.png
+```
+---
+
+# Implementation Steps
+
+## 1. Launch EC2 Instance
+
+Launch an Ubuntu EC2 instance in us-east-1.
+Attach the IAM role project5-ec2-role.
+Allow SSH access through port 22.
+Connect to the instance using your .pem key.
 
 ---
 
+## 2. Install Required Tools
 
+Install and verify:
+
+sudo apt update
+sudo apt install -y awscli python3-pip mysql-client
+
+Verify:
+
+aws --version
+python3 --version
+pip3 --version
+docker --version
+
+---
+
+## 3. Verify IAM Role
+
+aws sts get-caller-identity
+
+Confirm that the output shows:
+
+assumed-role/project5-ec2-role
+
+## 4. Create S3 Bucket
+
+Create the bucket:
+
+project5-data-ingestion-2026-vaishnavi
+
+Use:
+
+Region: us-east-1
+Bucket type: General purpose
+Object Ownership: Bucket owner enforced
+Block Public Access: Enabled
+Versioning: Enabled
+Encryption: SSE-S3
+
+---
+
+## 5. Create CSV File
+
+Create:
+
+customers.csv
+
+Example:
+
+id,name,email,city
+1,Vaishnavi,vaishnavi@example.com,Pune
+2,Rahul,rahul@example.com,Mumbai
+3,Priya,priya@example.com,Nashik
+4,Amit,amit@example.com,Nagpur
+5,Neha,neha@example.com,Aurangabad
+
+Use 10–20 records.
+
+---
+
+## 6. Upload CSV to S3
+
+Create the folder:
+
+data/
+
+Upload:
+
+customers.csv
+
+Final location:
+
+s3://project5-data-ingestion-2026-vaishnavi/data/customers.csv
+
+Verify:
+
+aws s3 ls s3://project5-data-ingestion-2026-vaishnavi/data/
+
+---
+
+## 7. Test S3 Access from EC2
+mkdir -p ~/project5/test
+
+Download:
+
+aws s3 cp \
+s3://project5-data-ingestion-2026-vaishnavi/data/customers.csv \
+~/project5/test/customers.csv
+
+Verify:
+
+cat ~/project5/test/customers.csv
+
+---
+
+## 8. Create RDS MySQL
+
+Create an RDS MySQL database with:
+
+Engine: MySQL
+Creation method: Full configuration
+Template: Free tier
+DB identifier: project5-rds
+Username: admin
+Database: projectdb
+Port: 3306
+
+Use a strong password.
+
+Keep:
+
+Public access: No
+
+---
+
+## 9. Configure RDS Security Group
+
+Create:
+
+project5-rds-sg
+
+Inbound:
+
+Type: MySQL/Aurora
+Port: 3306
+Source: EC2 Security Group
+
+Avoid opening:
+
+0.0.0.0/0
+
+---
+
+## 10. Test RDS Connectivity
+
+From EC2:
+
+nc -zv project5-rds.cmvikomsaif1.us-east-1.rds.amazonaws.com 3306
+
+Then connect:
+
+mysql \
+-h project5-rds.cmvikomsaif1.us-east-1.rds.amazonaws.com \
+-P 3306 \
+-u admin \
+-p
+
+---
+
+## 11. Verify RDS Database
+SHOW DATABASES;
+
+Select:
+
+USE projectdb;
+
+Create the table if required:
+
+CREATE TABLE customers (
+    id INT,
+    name VARCHAR(100),
+    email VARCHAR(150),
+    city VARCHAR(100)
+);
+
+---
+
+## 12. Create Project Directory
+mkdir -p ~/project5
+cd ~/project5
+
+Create:
+
+touch app.py Dockerfile requirements.txt .gitignore README.md
+
+---
+
+## 13. Create requirements.txt
+
+Add:
+
+boto3
+pandas
+sqlalchemy
+pymysql
+
+---
+
+## 14. Develop Python Application
+
+In app.py, implement:
+
+Read environment variables
+        ↓
+Read CSV from S3
+        ↓
+Load CSV using Pandas
+        ↓
+Connect to RDS MySQL
+        ↓
+Upload DataFrame to RDS
+        ↓
+If successful → finish
+        ↓
+If RDS fails → AWS Glue fallback
+        ↓
+Create/check Glue database
+        ↓
+Create Glue external table
+        ↓
+Register S3 location
+
+---
+
+## 15. Configure Environment Variables
+
+Use:
+
+AWS_REGION
+S3_BUCKET
+S3_KEY
+RDS_HOST
+RDS_USER
+RDS_PASSWORD
+RDS_DATABASE
+RDS_TABLE
+GLUE_DATABASE
+GLUE_TABLE
+GLUE_S3_LOCATION
+
+Do not hard-code the RDS password or AWS credentials.
+
+---
+
+## 16. Create Dockerfile
+
+Use:
+
+FROM python:3.12-slim
+
+
+WORKDIR /app
+
+
+COPY requirements.txt .
+
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+COPY app.py .
+
+
+CMD ["python", "app.py"]
+
+---
+
+## 17. Build Docker Image
+docker build -t project5-data-ingestion:latest .
+
+Verify:
+
+docker images
+
+---
+
+## 18. Run Docker Application
+
+Run the container with the required environment variables:
+
+docker run --rm \
+-e AWS_REGION=us-east-1 \
+-e S3_BUCKET=project5-data-ingestion-2026-vaishnavi \
+-e S3_KEY=data/customers.csv \
+-e RDS_HOST=project5-rds.cmvikomsaif1.us-east-1.rds.amazonaws.com \
+-e RDS_USER=admin \
+-e RDS_PASSWORD='YOUR_PASSWORD' \
+-e RDS_DATABASE=projectdb \
+-e RDS_TABLE=customers \
+-e GLUE_DATABASE=project5_glue_db \
+-e GLUE_TABLE=customers \
+-e GLUE_S3_LOCATION=s3://project5-data-ingestion-2026-vaishnavi/data/ \
+project5-data-ingestion:latest
+
+---
+
+## 19. Verify RDS Upload
+
+Connect to RDS:
+
+mysql -h project5-rds.cmvikomsaif1.us-east-1.rds.amazonaws.com \
+-P 3306 -u admin -p
+
+Run:
+
+USE projectdb;
+
+Then:
+
+SELECT * FROM customers;
+
+Verify:
+
+SELECT COUNT(*) FROM customers;
+
+Expected:
+
+15
+
+---
+
+## 20. Create AWS Glue Database
+
+Create:
+
+project5_glue_db
+
+Verify:
+
+aws glue get-databases
+
+---
+
+## 21. Test Glue Fallback
+
+Temporarily use an invalid RDS endpoint:
+
+RDS_HOST=invalid-rds-endpoint
+
+Run the Docker container again.
+
+The application should:
+
+Attempt RDS
+   ↓
+RDS connection fails
+   ↓
+Catch exception
+   ↓
+Activate Glue fallback
+   ↓
+Create Glue table
+   ↓
+Register S3 location
+
+---
+
+## 22. Verify Glue Table
+
+aws glue get-table \
+--database-name project5_glue_db \
+--name customers \
+--query 'Table.[Name,TableType,StorageDescriptor.Location]' \
+--output table
+
+Verify:
+
+customers
+EXTERNAL_TABLE
+s3://project5-data-ingestion-2026-vaishnavi/data/
+
+---
+
+# Result
+
+The Data Ingestion from S3 to RDS with Fallback to AWS Glue using Dockerized Python Application was successfully implemented.
+
+The customers.csv file containing 15 customer records was successfully uploaded to Amazon S3.
+The Dockerized Python application successfully downloaded and processed the CSV file using Pandas and Boto3.
+The application successfully connected to the RDS MySQL database and inserted all 15 records into the customers table.
+The RDS result was verified using SELECT COUNT(*), which returned 15 records.
+A Docker image named project5-data-ingestion:latest was successfully built and executed.
+AWS Glue was configured as the fallback mechanism.
+The Glue database project5_glue_db and external table customers were successfully created.
+The Glue table was successfully registered with the S3 location:
+s3://project5-data-ingestion-2026-vaishnavi/data/
+The complete workflow was verified as:
+
+S3 CSV
+   ↓
+Dockerized Python Application
+   ↓
+RDS MySQL
+   ↓
+15 Records Successfully Inserted
+
+
+RDS Failure
+   ↓
+AWS Glue Data Catalog
+   ↓
+External Table → S3 Dataset
+
+Therefore, the project successfully demonstrates S3 data ingestion, RDS database loading, Docker containerization, and AWS Glue fallback for reliable data processing.
+
+----
+
+# Conclusion
+
+The Data Ingestion from S3 to RDS with Fallback to AWS Glue using Dockerized Python Application was successfully implemented as a reliable cloud-based data ingestion pipeline.
+
+The project demonstrates how a Python application running inside a Docker container can retrieve CSV data from Amazon S3, process the data using Pandas, and load it into an Amazon RDS MySQL database. The successful insertion and verification of 15 customer records confirm that the primary data ingestion workflow is working correctly.
+
+A fallback mechanism using AWS Glue Data Catalog was also implemented. When the RDS operation is unavailable or fails, the application can register the S3 dataset as an external Glue table. This ensures that the data remains accessible through the S3-based data catalog even when the primary relational database cannot be used.
+
+Docker provides portability and consistency by packaging the Python application and its dependencies into a single container image. The use of Boto3, SQLAlchemy, PyMySQL, and Pandas demonstrates practical integration between Python and AWS services.
+
+The project also demonstrates important AWS security practices, including the use of an IAM role for EC2, private S3 storage, restricted RDS network access, and avoiding hard-coded AWS credentials in the application.
+
+Overall, the project successfully demonstrates cloud data ingestion, database integration, containerization, AWS service integration, fault tolerance, and secure AWS authentication. It provides a practical foundation for building larger and more reliable data-processing pipelines in real-world cloud environments.
 
 
