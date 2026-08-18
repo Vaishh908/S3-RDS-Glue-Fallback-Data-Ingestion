@@ -92,8 +92,8 @@ You should see:
 
 Update the Ubuntu package repository:
 
-   sudo apt update
-   sudo apt upgrade -y
+      sudo apt update
+      sudo apt upgrade -y
 
 ---
 
@@ -101,12 +101,12 @@ Update the Ubuntu package repository:
 
 Install Python and required development tools:
 
-   sudo apt install python3 python3-pip python3-venv -y
+       sudo apt install python3 python3-pip python3-venv -y
 
 Verify:
 
-    python3 --version
-    pip3 --version
+        python3 --version
+        pip3 --version
 
 The Python version should be 3.12 or later.
 
@@ -115,16 +115,16 @@ The Python version should be 3.12 or later.
 ## 4. Create a Python Virtual Environment
 
 Inside the project directory:
-
-    python3 -m venv venv
-
+ 
+        python3 -m venv venv
+  
 Activate the virtual environment:
 
-    source venv/bin/activate
+       source venv/bin/activate
 
 You should see:
 
-    (venv)
+     (venv)
 
 at the beginning of your terminal prompt.
 
@@ -136,11 +136,11 @@ The project uses Pandas, Boto3, SQLAlchemy, and PyMySQL.
 
 Install them using:
 
-   pip install -r requirements.txt
+       pip install -r requirements.txt
 
 Verify:
 
-   pip list
+       pip list
 
 The required packages should be displayed.
 
@@ -150,24 +150,24 @@ The required packages should be displayed.
 
 Install Docker if it is not already available:
 
-   sudo apt update
-   sudo apt install docker.io -y
+     sudo apt update
+     sudo apt install docker.io -y
 
 Start Docker:
 
-   sudo systemctl start docker
+     sudo systemctl start docker
 
 Enable Docker at system startup:
 
-   sudo systemctl enable docker
+     sudo systemctl enable docker
 
 Check Docker:
 
-   docker --version
+    docker --version
 
 If your user gets a permission error when running Docker, add the user to the Docker group:
 
-   sudo usermod -aG docker $USER
+    sudo usermod -aG docker $USER
 
 Log out and log back in for the change to take effect.
 
