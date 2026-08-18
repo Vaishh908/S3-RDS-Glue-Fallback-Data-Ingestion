@@ -92,8 +92,8 @@ You should see:
 
 Update the Ubuntu package repository:
 
-sudo apt update
-sudo apt upgrade -y
+   sudo apt update
+   sudo apt upgrade -y
 
 ---
 
@@ -101,12 +101,12 @@ sudo apt upgrade -y
 
 Install Python and required development tools:
 
-sudo apt install python3 python3-pip python3-venv -y
+   sudo apt install python3 python3-pip python3-venv -y
 
 Verify:
 
-python3 --version
-pip3 --version
+    python3 --version
+    pip3 --version
 
 The Python version should be 3.12 or later.
 
@@ -116,15 +116,15 @@ The Python version should be 3.12 or later.
 
 Inside the project directory:
 
-python3 -m venv venv
+    python3 -m venv venv
 
 Activate the virtual environment:
 
-source venv/bin/activate
+    source venv/bin/activate
 
 You should see:
 
-(venv)
+    (venv)
 
 at the beginning of your terminal prompt.
 
@@ -136,11 +136,11 @@ The project uses Pandas, Boto3, SQLAlchemy, and PyMySQL.
 
 Install them using:
 
-pip install -r requirements.txt
+   pip install -r requirements.txt
 
 Verify:
 
-pip list
+   pip list
 
 The required packages should be displayed.
 
@@ -150,24 +150,24 @@ The required packages should be displayed.
 
 Install Docker if it is not already available:
 
-sudo apt update
-sudo apt install docker.io -y
+   sudo apt update
+   sudo apt install docker.io -y
 
 Start Docker:
 
-sudo systemctl start docker
+   sudo systemctl start docker
 
 Enable Docker at system startup:
 
-sudo systemctl enable docker
+   sudo systemctl enable docker
 
 Check Docker:
 
-docker --version
+   docker --version
 
 If your user gets a permission error when running Docker, add the user to the Docker group:
 
-sudo usermod -aG docker $USER
+   sudo usermod -aG docker $USER
 
 Log out and log back in for the change to take effect.
 
@@ -177,11 +177,11 @@ Log out and log back in for the change to take effect.
 
 If Git is not installed:
 
-sudo apt install git -y
+   sudo apt install git -y
 
 Verify:
 
-git --version
+   git --version
 
 ---
 
@@ -189,11 +189,11 @@ git --version
 
 The MySQL client is useful for testing the RDS connection and verifying inserted records.
 
-sudo apt install mysql-client -y
+   sudo apt install mysql-client -y
 
 Verify:
 
-mysql --version
+  mysql --version
 
 ---
 
@@ -201,11 +201,11 @@ mysql --version
 
 Install AWS CLI:
 
-sudo apt install awscli -y
+  sudo apt install awscli -y
 
 Verify:
 
-aws --version
+  aws --version
 
 If you are using AWS access keys:
 
@@ -265,15 +265,15 @@ Connect to the instance using your .pem key.
 
 Install and verify:
 
-sudo apt update
-sudo apt install -y awscli python3-pip mysql-client
+  sudo apt update
+  sudo apt install -y awscli python3-pip mysql-client
 
 Verify:
 
-aws --version
-python3 --version
-pip3 --version
-docker --version
+   aws --version
+  python3 --version
+  pip3 --version
+  docker --version
 
 ---
 
@@ -291,7 +291,7 @@ assumed-role/project5-ec2-role
 
 Create the bucket:
 
-project5-data-ingestion-2026-vaishnavi
+   project5-data-ingestion-2026-vaishnavi
 
 Use:
 
@@ -330,28 +330,28 @@ Use 10–20 records.
 
 Create the folder:
 
-data/
+    data/
 
 Upload:
 
-customers.csv
+    customers.csv
 
 <img width="1920" height="1080" alt="Screenshot 2026-08-17 164028" src="https://github.com/user-attachments/assets/c6a5ebac-148c-42fc-bc53-f8e5916fc332" />
 
 
 Final location:
 
-s3://project5-data-ingestion-2026-vaishnavi/data/customers.csv
+   s3://project5-data-ingestion-2026-vaishnavi/data/customers.csv
 
 Verify:
 
-aws s3 ls s3://project5-data-ingestion-2026-vaishnavi/data/
+   aws s3 ls s3://project5-data-ingestion-2026-vaishnavi/data/
 
 ---
 
 ## 7. Test S3 Access from EC2
 
-mkdir -p ~/project5/test
+   mkdir -p ~/project5/test
 
 Download:
 
@@ -407,7 +407,7 @@ Avoid opening:
 
 From EC2:
 
-nc -zv project5-rds.cmvikomsaif1.us-east-1.rds.amazonaws.com 3306
+   nc -zv project5-rds.cmvikomsaif1.us-east-1.rds.amazonaws.com 3306
 
 Then connect:
 
@@ -443,7 +443,7 @@ cd ~/project5
 
 Create:
 
-touch app.py Dockerfile requirements.txt .gitignore README.md
+   touch app.py Dockerfile requirements.txt .gitignore README.md
 
 ---
 
@@ -458,53 +458,7 @@ pymysql
 
 ---
 
-## 14. Develop Python Application
-
-In app.py, implement:
-
-Read environment variables
-        ↓
-Read CSV from S3
-        ↓
-Load CSV using Pandas
-        ↓
-Connect to RDS MySQL
-        ↓
-Upload DataFrame to RDS
-        ↓
-If successful → finish
-        ↓
-If RDS fails → AWS Glue fallback
-        ↓
-Create/check Glue database
-        ↓
-Create Glue external table
-        ↓
-Register S3 location
-
----
-
-## 15. Configure Environment Variables
-
-Use:
-
-AWS_REGION
-S3_BUCKET
-S3_KEY
-RDS_HOST
-RDS_USER
-RDS_PASSWORD
-RDS_DATABASE
-RDS_TABLE
-GLUE_DATABASE
-GLUE_TABLE
-GLUE_S3_LOCATION
-
-Do not hard-code the RDS password or AWS credentials.
-
----
-
-## 16. Create Dockerfile
+## 14. Create Dockerfile
 
 Use:
 
@@ -527,16 +481,17 @@ CMD ["python", "app.py"]
 
 ---
 
-## 17. Build Docker Image
-docker build -t project5-data-ingestion:latest .
+## 15. Build Docker Image
+
+   docker build -t project5-data-ingestion:latest .
 
 Verify:
 
-docker images
+  docker images
 
 ---
 
-## 18. Run Docker Application
+## 16. Run Docker Application
 
 Run the container with the required environment variables:
 
@@ -556,12 +511,12 @@ project5-data-ingestion:latest
 
 ---
 
-## 19. Verify RDS Upload
+## 17. Verify RDS Upload
 
 Connect to RDS:
 
-mysql -h project5-rds.cmvikomsaif1.us-east-1.rds.amazonaws.com \
--P 3306 -u admin -p
+  mysql -h project5-rds.cmvikomsaif1.us-east-1.rds.amazonaws.com \
+  -P 3306 -u admin -p
 
 Run:
 
@@ -581,7 +536,7 @@ Expected:
 
 ---
 
-## 20. Create AWS Glue Database
+## 18. Create AWS Glue Database
 
 Create:
 
@@ -593,7 +548,7 @@ aws glue get-databases
 
 ---
 
-## 21. Test Glue Fallback
+## 19. Test Glue Fallback
 
 Temporarily use an invalid RDS endpoint:
 
@@ -617,7 +572,7 @@ Register S3 location
 
 ---
 
-## 22. Verify Glue Table
+## 20. Verify Glue Table
 
 aws glue get-table \
 --database-name project5_glue_db \
