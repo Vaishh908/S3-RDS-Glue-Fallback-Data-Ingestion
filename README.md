@@ -67,24 +67,24 @@ Follow these steps to prepare the environment for the Data Ingestion from S3 to 
 
 Clone the project repository to your Linux/Ubuntu system or EC2 instance.
 
-git clone <YOUR-GITHUB-REPOSITORY-URL>
+    git clone <YOUR-GITHUB-REPOSITORY-URL>
 
 Navigate to the project directory:
 
-cd Data-Ingestion-S3-RDS-Glue
+      cd Data-Ingestion-S3-RDS-Glue
 
 Verify the project files:
 
-ls
+     ls
 
 You should see:
 
-app.py
-Dockerfile
-requirements.txt
-README.md
-.gitignore
-screenshots
+ - app.py
+ - Dockerfile
+ - requirements.txt
+ - README.md
+ -.gitignore
+ - screenshots
 
 ---
 
@@ -285,6 +285,8 @@ Confirm that the output shows:
 
 assumed-role/project5-ec2-role
 
+---
+
 ## 4. Create S3 Bucket
 
 Create the bucket:
@@ -299,6 +301,9 @@ Object Ownership: Bucket owner enforced
 Block Public Access: Enabled
 Versioning: Enabled
 Encryption: SSE-S3
+
+<img width="1920" height="1080" alt="Screenshot 2026-08-17 163038" src="https://github.com/user-attachments/assets/5c864bd4-50eb-41fe-8ec7-856c42acfa8f" />
+
 
 ---
 
@@ -331,6 +336,9 @@ Upload:
 
 customers.csv
 
+<img width="1920" height="1080" alt="Screenshot 2026-08-17 164028" src="https://github.com/user-attachments/assets/c6a5ebac-148c-42fc-bc53-f8e5916fc332" />
+
+
 Final location:
 
 s3://project5-data-ingestion-2026-vaishnavi/data/customers.csv
@@ -342,6 +350,7 @@ aws s3 ls s3://project5-data-ingestion-2026-vaishnavi/data/
 ---
 
 ## 7. Test S3 Access from EC2
+
 mkdir -p ~/project5/test
 
 Download:
