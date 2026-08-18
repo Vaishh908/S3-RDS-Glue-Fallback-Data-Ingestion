@@ -227,20 +227,18 @@ If the application runs on an EC2 instance, an IAM role attached to the EC2 inst
 The project is organized into application code, Docker configuration, dependencies, documentation, and screenshots.
 
 ```text
-Data-Ingestion-S3-RDS-Glue/
+S3-RDS-Glue-Fallback-Data-Ingestion/
 │
 ├── app.py
-│
 ├── Dockerfile
-│
 ├── requirements.txt
-│
+├── customers.csv
 ├── .gitignore
-│
 ├── README.md
+├── Summary Report.md
+├── LICENSE
 │
 └── screenshots/
-    │
     ├── 01-s3-csv-upload.png
     ├── 02-docker-image-build.png
     ├── 03-docker-container-running.png
