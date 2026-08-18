@@ -634,6 +634,7 @@ The Glue table was successfully registered with the S3 location:
 s3://project5-data-ingestion-2026-vaishnavi/data/
 The complete workflow was verified as:
 
+```text
 S3 CSV
    ↓
 Dockerized Python Application
@@ -648,6 +649,7 @@ RDS Failure
 AWS Glue Data Catalog
    ↓
 External Table → S3 Dataset
+```
 
 Therefore, the project successfully demonstrates S3 data ingestion, RDS database loading, Docker containerization, and AWS Glue fallback for reliable data processing.
 
