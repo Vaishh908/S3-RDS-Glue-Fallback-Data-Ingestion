@@ -32,8 +32,6 @@ Amazon RDS MySQL
        S3 Dataset
 ```
 
----
-
 The process starts when a CSV file containing customer records is uploaded to an S3 bucket. The Python application running inside a Docker container uses **Boto3** to retrieve the CSV file from S3. **Pandas** reads and processes the CSV data.
 
 Under normal conditions, the application connects to **Amazon RDS MySQL** using **SQLAlchemy and PyMySQL** and inserts the processed records into the `customers` table.
