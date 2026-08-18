@@ -1,6 +1,3 @@
-# Summary Report
-
-## Data Ingestion from S3 to RDS with AWS Glue Fallback Using Dockerized Python Application
 
 ### 1. Data Flow: S3 → RDS → Glue Fallback
 
@@ -34,6 +31,8 @@ Amazon RDS MySQL
           ▼
        S3 Dataset
 ```
+
+---
 
 The process starts when a CSV file containing customer records is uploaded to an S3 bucket. The Python application running inside a Docker container uses **Boto3** to retrieve the CSV file from S3. **Pandas** reads and processes the CSV data.
 
