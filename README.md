@@ -171,6 +171,11 @@ If your user gets a permission error when running Docker, add the user to the Do
 
 Log out and log back in for the change to take effect.
 
+<img width="1920" height="1080" alt="Screenshot 2026-08-18 103618" src="https://github.com/user-attachments/assets/e928e9b7-53c9-422f-8be1-d2a0099ddfdb" />
+
+
+<img width="1920" height="1080" alt="Screenshot 2026-08-18 103552" src="https://github.com/user-attachments/assets/4ef0510c-a065-4f92-9725-8376343a2250" />
+
 ---
 
 ## 7. Install Git
@@ -275,7 +280,8 @@ Verify:
     pip3 --version
     docker --version
 
-<img width="1369" height="793" alt="image" src="https://github.com/user-attachments/assets/04ab4191-f2f9-4564-a7e6-3f0d90f64143" />
+
+    <img width="1369" height="793" alt="image" src="https://github.com/user-attachments/assets/04ab4191-f2f9-4564-a7e6-3f0d90f64143" />
 
 ---
 
@@ -463,6 +469,8 @@ Create:
 
    touch app.py Dockerfile requirements.txt .gitignore README.md
 
+<img width="1038" height="300" alt="Screenshot 2026-08-18 112836" src="https://github.com/user-attachments/assets/5d2584d2-2ce6-4064-9b8a-db1bc8e922cb" />
+
 ---
 
 ## 13. Create requirements.txt
@@ -506,11 +514,14 @@ CMD ["python", "app.py"]
 
    docker build -t project5-data-ingestion:latest .
 
+   <img width="1920" height="1080" alt="Screenshot 2026-08-18 112954" src="https://github.com/user-attachments/assets/6f4d8433-e345-47b2-b7d8-25dcd887c320" />
+
 Verify:
 
   docker images
 
-<img width="1157" height="287" alt="image" src="https://github.com/user-attachments/assets/db47e6af-bedc-4e59-a125-14404dda3f51" />
+<img width="1920" height="1080" alt="Screenshot 2026-08-18 113055" src="https://github.com/user-attachments/assets/31914b7f-44b6-4816-93f8-fb4676f39e0f" />
+
 
 ---
 
@@ -559,7 +570,7 @@ Expected:
 
 15
 
-<img width="1593" height="900" alt="image" src="https://github.com/user-attachments/assets/b8675f16-40b1-4f4f-9339-1643c5f09d14" />
+<img width="1920" height="1080" alt="Screenshot 2026-08-18 113510" src="https://github.com/user-attachments/assets/13f71b52-7cb6-4605-8e2a-bc398a840a54" />
 
 ---
 
@@ -587,6 +598,7 @@ Run the Docker container again.
 
 The application should:
 
+```text
 Attempt RDS
    ↓
 RDS connection fails
@@ -599,6 +611,7 @@ Create Glue table
    ↓
 Register S3 location
 
+```
 ---
 
 ## 20. Verify Glue Table
