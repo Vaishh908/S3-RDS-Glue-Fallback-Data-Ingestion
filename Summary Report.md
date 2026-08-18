@@ -1,5 +1,5 @@
 
-### 1. Data Flow: S3 → RDS → Glue Fallback
+#  Data Flow: S3 → RDS → Glue Fallback
 
 The project implements a reliable data ingestion pipeline in which CSV data is first stored in **Amazon S3** and then processed by a Dockerized Python application.
 
@@ -42,7 +42,7 @@ This approach improves reliability because the original dataset remains safely s
 
 ---
 
-### 2. AWS Services Used
+#  AWS Services Used
 
 | AWS Service | Purpose |
 |---|---|
@@ -60,7 +60,7 @@ The RDS security group was configured to allow MySQL traffic on port **3306 only
 
 ---
 
-### 3. Docker Setup
+# Docker Setup
 
 Docker was used to containerize the Python application and its dependencies. This provides a consistent and portable execution environment.
 
@@ -113,9 +113,9 @@ Sensitive information such as the RDS password was passed through environment va
 
 ---
 
-### 4. Challenges Faced and How They Were Solved
+# Challenges Faced and How They Were Solved
 
-#### Challenge 1: RDS Connectivity
+## Challenge 1: RDS Connectivity
 
 The Dockerized application needed to communicate with the private RDS MySQL database. Incorrect security-group configuration could prevent the application from connecting.
 
@@ -132,7 +132,7 @@ The MySQL client was also used to verify the database connection.
 
 ---
 
-#### Challenge 2: AWS IAM Permissions
+## Challenge 2: AWS IAM Permissions
 
 The application required permissions to read objects from S3 and create or access AWS Glue resources.
 
@@ -147,7 +147,7 @@ This avoided storing permanent AWS access keys inside the Docker container.
 
 ---
 
-#### Challenge 3: RDS Failure Handling
+##  Challenge 3: RDS Failure Handling
 
 The main challenge was ensuring that the application would not completely stop if RDS became unavailable.
 
@@ -172,7 +172,7 @@ The application automatically activates the Glue fallback when the RDS operation
 
 ---
 
-#### Challenge 4: Creating the Glue External Table
+##  Challenge 4: Creating the Glue External Table
 
 The Glue table required the correct database name, table schema, S3 location, CSV format, and serialization configuration.
 
@@ -181,30 +181,4 @@ The application uses **Boto3 and AWS Glue APIs** to create the Glue database and
 
 ---
 
-### 5. Overall Result
-
-The project successfully demonstrates a fault-tolerant AWS data ingestion workflow:
-
-```text
-                 Amazon S3
-              CSV Customer Data
-                     │
-                     ▼
-          Dockerized Python App
-                     │
-              ┌──────┴──────┐
-              ▼             ▼
-          RDS Success    RDS Failure
-              │             │
-              ▼             ▼
-        Amazon RDS      AWS Glue
-          MySQL        Data Catalog
-              │             │
-              ▼             ▼
-        Stored Data     External Table
-                            │
-                            ▼
-                       S3 Dataset
-```
-
-The project demonstrates practical use of AWS cloud services, Python data processing, Docker containerization, database connectivity, IAM security, error handling, and fallback architecture. The design ensures that S3 remains the reliable source of the dataset while RDS serves as the primary database and AWS Glue provides an alternative cataloging mechanism during RDS failures.
+he reliable source of the dataset while RDS serves as the primary database and AWS Glue provides an alternative cataloging mechanism during RDS failures.
