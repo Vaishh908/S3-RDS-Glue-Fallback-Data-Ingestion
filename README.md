@@ -181,7 +181,7 @@ If Git is not installed:
 
 Verify:
 
-   git --version
+    git --version
 
 ---
 
@@ -193,7 +193,7 @@ The MySQL client is useful for testing the RDS connection and verifying inserted
 
 Verify:
 
-  mysql --version
+    mysql --version
 
 ---
 
@@ -209,7 +209,7 @@ Verify:
 
 If you are using AWS access keys:
 
-aws configure
+  aws configure
 
 Enter the required information:
 
@@ -217,7 +217,7 @@ AWS Access Key ID:
 AWS Secret Access Key:
 Default region name:
 Default output format:
-
+ 
 If the application runs on an EC2 instance, an IAM role attached to the EC2 instance is preferred over storing long-term access keys.
 
 ---
@@ -257,21 +257,23 @@ Attach the IAM role project5-ec2-role.
 Allow SSH access through port 22.
 Connect to the instance using your .pem key.
 
+<img width="1916" height="1012" alt="image" src="https://github.com/user-attachments/assets/e3359977-61e9-4b04-a663-d3ec6f34d4fe" />
+
 ---
 
 ## 2. Install Required Tools
 
 Install and verify:
 
-  sudo apt update
-  sudo apt install -y awscli python3-pip mysql-client
+    sudo apt update
+    sudo apt install -y awscli python3-pip mysql-client
 
 Verify:
 
-   aws --version
-  python3 --version
-  pip3 --version
-  docker --version
+    aws --version
+    python3 --version
+    pip3 --version
+    docker --version
 
 ---
 
@@ -381,6 +383,8 @@ Keep:
 
 Public access: No
 
+<img width="1918" height="1018" alt="image" src="https://github.com/user-attachments/assets/fe92f6c8-5c9f-417e-96f2-67b3880c6af5" />
+
 ---
 
 ## 9. Configure RDS Security Group
@@ -399,45 +403,49 @@ Avoid opening:
 
 0.0.0.0/0
 
+<img width="1916" height="1021" alt="image" src="https://github.com/user-attachments/assets/d0992322-f30f-4de6-8320-30ef468c57d4" />
+
 ---
 
 ## 10. Test RDS Connectivity
 
 From EC2:
 
-   nc -zv project5-rds.cmvikomsaif1.us-east-1.rds.amazonaws.com 3306
+    nc -zv project5-rds.cmvikomsaif1.us-east-1.rds.amazonaws.com 3306
 
 Then connect:
 
-mysql \
--h project5-rds.cmvikomsaif1.us-east-1.rds.amazonaws.com \
--P 3306 \
--u admin \
--p
+     mysql \
+     -h project5-rds.cmvikomsaif1.us-east-1.rds.amazonaws.com \
+     -P 3306 \
+     -u admin \
+     -p
 
 ---
 
 ## 11. Verify RDS Database
-SHOW DATABASES;
+       
+       SHOW DATABASES;
 
 Select:
 
-USE projectdb;
+       USE projectdb;
 
 Create the table if required:
 
-CREATE TABLE customers (
-    id INT,
-    name VARCHAR(100),
-    email VARCHAR(150),
-    city VARCHAR(100)
-);
+      CREATE TABLE customers (
+      id INT,
+      name VARCHAR(100),
+      email VARCHAR(150),
+      city VARCHAR(100)
+      );
 
 ---
 
 ## 12. Create Project Directory
-mkdir -p ~/project5
-cd ~/project5
+
+     mkdir -p ~/project5
+     cd ~/project5
 
 Create:
 
