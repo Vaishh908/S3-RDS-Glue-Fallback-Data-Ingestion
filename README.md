@@ -75,7 +75,7 @@ Navigate to the project directory:
 
 Verify the project files:
 
-     ls
+       ls
 
 You should see:
 
@@ -275,6 +275,8 @@ Verify:
     pip3 --version
     docker --version
 
+<img width="1369" height="793" alt="image" src="https://github.com/user-attachments/assets/04ab4191-f2f9-4564-a7e6-3f0d90f64143" />
+
 ---
 
 ## 3. Verify IAM Role
@@ -349,6 +351,8 @@ Verify:
 
    aws s3 ls s3://project5-data-ingestion-2026-vaishnavi/data/
 
+<img width="976" height="121" alt="image" src="https://github.com/user-attachments/assets/01629c45-530b-4d25-bd7d-de2f002acc2b" />
+
 ---
 
 ## 7. Test S3 Access from EC2
@@ -364,6 +368,8 @@ Download:
 Verify:
 
         cat ~/project5/test/customers.csv
+
+<img width="1348" height="592" alt="image" src="https://github.com/user-attachments/assets/4ae50971-527e-40ec-a885-67cedad01a12" />
 
 ---
 
@@ -423,6 +429,8 @@ Then connect:
      -u admin \
      -p
 
+<img width="1452" height="216" alt="image" src="https://github.com/user-attachments/assets/2c8b68bd-9e86-43c7-bc34-c09448c11690" />
+
 ---
 
 ## 11. Verify RDS Database
@@ -441,6 +449,8 @@ Create the table if required:
       email VARCHAR(150),
       city VARCHAR(100)
       );
+
+<img width="1050" height="805" alt="image" src="https://github.com/user-attachments/assets/0a237f40-cdd4-4efb-8e05-8b85ca99e1fa" />
 
 ---
 
@@ -464,12 +474,13 @@ pandas
 sqlalchemy
 pymysql
 
+<img width="1395" height="339" alt="image" src="https://github.com/user-attachments/assets/e1014a55-1e54-4b29-b16f-f94ad3f20c36" />
+
 ---
 
 ## 14. Create Dockerfile
 
-Use:
-
+Use
 FROM python:3.12-slim
 
 
@@ -487,6 +498,8 @@ COPY app.py .
 
 CMD ["python", "app.py"]
 
+<img width="1583" height="556" alt="image" src="https://github.com/user-attachments/assets/71967725-5c43-45fe-8611-19d738518b45" />
+
 ---
 
 ## 15. Build Docker Image
@@ -496,6 +509,8 @@ CMD ["python", "app.py"]
 Verify:
 
   docker images
+
+<img width="1157" height="287" alt="image" src="https://github.com/user-attachments/assets/db47e6af-bedc-4e59-a125-14404dda3f51" />
 
 ---
 
@@ -516,6 +531,8 @@ docker run --rm \
 -e GLUE_TABLE=customers \
 -e GLUE_S3_LOCATION=s3://project5-data-ingestion-2026-vaishnavi/data/ \
 project5-data-ingestion:latest
+
+<img width="1297" height="850" alt="image" src="https://github.com/user-attachments/assets/178ddf4b-bc62-4db6-a089-d9f0c367b9f6" />
 
 ---
 
@@ -542,17 +559,21 @@ Expected:
 
 15
 
+<img width="1593" height="900" alt="image" src="https://github.com/user-attachments/assets/b8675f16-40b1-4f4f-9339-1643c5f09d14" />
+
 ---
 
 ## 18. Create AWS Glue Database
 
 Create:
 
-project5_glue_db
+               project5_glue_db
 
 Verify:
+ 
+               aws glue get-databases
 
-aws glue get-databases
+<img width="1140" height="527" alt="image" src="https://github.com/user-attachments/assets/1a57d617-14fa-4c14-9065-f326880ada58" />
 
 ---
 
@@ -560,7 +581,7 @@ aws glue get-databases
 
 Temporarily use an invalid RDS endpoint:
 
-RDS_HOST=invalid-rds-endpoint
+            RDS_HOST=invalid-rds-endpoint
 
 Run the Docker container again.
 
@@ -593,6 +614,8 @@ Verify:
 customers
 EXTERNAL_TABLE
 s3://project5-data-ingestion-2026-vaishnavi/data/
+
+<img width="971" height="255" alt="image" src="https://github.com/user-attachments/assets/b6f45e95-d8d8-4fbc-841c-ccf1aac39eaa" />
 
 ---
 
