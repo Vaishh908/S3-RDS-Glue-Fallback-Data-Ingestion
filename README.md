@@ -281,7 +281,7 @@ Verify:
     docker --version
 
 
-    <img width="1369" height="793" alt="image" src="https://github.com/user-attachments/assets/04ab4191-f2f9-4564-a7e6-3f0d90f64143" />
+<img width="1369" height="793" alt="image" src="https://github.com/user-attachments/assets/04ab4191-f2f9-4564-a7e6-3f0d90f64143" />
 
 ---
 
