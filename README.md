@@ -279,11 +279,13 @@ Verify:
 
 ## 3. Verify IAM Role
 
-aws sts get-caller-identity
+      aws sts get-caller-identity
 
 Confirm that the output shows:
 
-assumed-role/project5-ec2-role
+      assumed-role/project5-ec2-role
+
+<img width="1916" height="1021" alt="image" src="https://github.com/user-attachments/assets/0f68b052-6217-4a98-a80c-0eb55841f7fb" />
 
 ---
 
@@ -291,7 +293,7 @@ assumed-role/project5-ec2-role
 
 Create the bucket:
 
-   project5-data-ingestion-2026-vaishnavi
+     project5-data-ingestion-2026-vaishnavi
 
 Use:
 
@@ -311,16 +313,16 @@ Encryption: SSE-S3
 
 Create:
 
-customers.csv
+           customers.csv
 
 Example:
 
-id,name,email,city
-1,Vaishnavi,vaishnavi@example.com,Pune
-2,Rahul,rahul@example.com,Mumbai
-3,Priya,priya@example.com,Nashik
-4,Amit,amit@example.com,Nagpur
-5,Neha,neha@example.com,Aurangabad
+        id,name,email,city
+        1,Vaishnavi,vaishnavi@example.com,Pune
+        2,Rahul,rahul@example.com,Mumbai
+        3,Priya,priya@example.com,Nashik
+        4,Amit,amit@example.com,Nagpur
+        5,Neha,neha@example.com,Aurangabad
 
 Use 10–20 records.
 
@@ -330,11 +332,11 @@ Use 10–20 records.
 
 Create the folder:
 
-    data/
+        data/
 
 Upload:
 
-    customers.csv
+      customers.csv
 
 <img width="1920" height="1080" alt="Screenshot 2026-08-17 164028" src="https://github.com/user-attachments/assets/c6a5ebac-148c-42fc-bc53-f8e5916fc332" />
 
@@ -351,17 +353,17 @@ Verify:
 
 ## 7. Test S3 Access from EC2
 
-   mkdir -p ~/project5/test
+        mkdir -p ~/project5/test
 
 Download:
 
-aws s3 cp \
-s3://project5-data-ingestion-2026-vaishnavi/data/customers.csv \
-~/project5/test/customers.csv
+         aws s3 cp \
+        s3://project5-data-ingestion-2026-vaishnavi/data/customers.csv \
+        ~/project5/test/customers.csv
 
 Verify:
 
-cat ~/project5/test/customers.csv
+        cat ~/project5/test/customers.csv
 
 ---
 
@@ -410,8 +412,8 @@ Avoid opening:
 ## 10. Test RDS Connectivity
 
 From EC2:
-
-    nc -zv project5-rds.cmvikomsaif1.us-east-1.rds.amazonaws.com 3306
+ 
+     nc -zv project5-rds.cmvikomsaif1.us-east-1.rds.amazonaws.com 3306
 
 Then connect:
 
